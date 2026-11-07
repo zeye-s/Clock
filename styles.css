@@ -60,6 +60,7 @@ body{
 #editTime.open{
     opacity: 1;
     z-index:2;
+    pointer-events: all;
 }
 
 #editTime{
@@ -67,20 +68,22 @@ body{
     border:2px solid rgb(0, 184, 0);
     opacity:0;
     position:fixed;
-    top:20%;
-    left:20%;
-    right:20%;
-    bottom:20%;
+    top:30%;
+    left:30%;
+    right:30%;
+    bottom:30%;
     z-index:-1;
     display:flex;
     justify-content: center;
     flex-direction: column;
+    pointer-events: none;
 }
 
-#editTime input{
+#editTime input, select, #submit{
     padding:5px;
     width:50%;
     margin:auto;
+    margin-top:-5%;
 }
 
 @font-face {

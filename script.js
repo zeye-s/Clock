@@ -1,9 +1,32 @@
+const setTime = document.getElementById("setTime");
+const editTime = document.getElementById("editTime");
+const submit = document.getElementById("submit");
+const inputHours = document.getElementById("inputHours");
+const inputMinutes = document.getElementById("inputMinutes");
+const inputSeconds = document.getElementById("inputSeconds");
+const selectTime = document.getElementById("selectTime")
+
 let time;
 let clock = document.getElementById("clock")
 let hour;
 let military;
 let minute;
 let second;
+let inputted = false;
+
+setTime.addEventListener("click", ()=>{
+    editTime.classList.add("open");
+})
+
+submit.addEventListener("click", ()=>{
+    editTime.classList.remove("open");
+    hour = inputHours.value;
+    minute = inputMinutes.value;
+    second = inputSeconds.value;
+    military = selectTime.value;
+    inputted = true;
+})
+
 
 function updateClock(){
     let now = new Date();
@@ -20,7 +43,7 @@ function updateClock(){
         minute.toString().padStart(2);
     }
 
-    second = now.getSeconds().toString().padStart(2);
+    second = now.getSeconds();
     if(second < 10){
         second = '0' + second.toString();
     }
@@ -28,14 +51,19 @@ function updateClock(){
         second.toString().padStart(2);
     }
 
-
     time = `${hour}:${minute}:${second} ${military}`;
     document.getElementById("clock").textContent = time;
+}
+
+function increClock(){
 
 }
 
-updateClock();
-setInterval(updateClock, 1000);
+
+if(!inputted){
+    setInterval(updateClock, 1000);
+}
+
 
 const canvas = document.getElementById("drawBoard");
 const ctx = canvas.getContext('2d');
@@ -72,14 +100,3 @@ function draw (){
 
 setInterval(draw, 120);
 
-const setTime = document.getElementById("setTime");
-const editTime = document.getElementById("editTime");
-const submit = document.getElementById("submit");
-
-setTime.addEventListener("click", ()=>{
-    editTime.classList.add("open");
-})
-
-submit.addEventListener("click", ()=>{
-    editTime.classList.remove("open");
-})
