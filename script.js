@@ -4,15 +4,16 @@ const submit = document.getElementById("submit");
 const inputHours = document.getElementById("inputHours");
 const inputMinutes = document.getElementById("inputMinutes");
 const inputSeconds = document.getElementById("inputSeconds");
-const selectTime = document.getElementById("selectTime")
+const selectTime = document.getElementById("selectTime");
 
 let time;
-let clock = document.getElementById("clock")
+let clock = document.getElementById("clock");
 let hour;
 let military;
 let minute;
 let second;
 let inputted = false;
+let intervalID;
 
 setTime.addEventListener("click", ()=>{
     editTime.classList.add("open");
@@ -20,11 +21,14 @@ setTime.addEventListener("click", ()=>{
 
 submit.addEventListener("click", ()=>{
     editTime.classList.remove("open");
-    hour = inputHours.value;
-    minute = inputMinutes.value;
-    second = inputSeconds.value;
+    hour = parseInt(inputHours.value);
+    minute = parseInt(inputMinutes.value);
+    second = parseInt(inputSeconds.value);
     military = selectTime.value;
     inputted = true;
+
+    clearInterval(intervalID);
+    intervalID = setInterval(increClock, 1000);
 })
 
 
@@ -56,14 +60,41 @@ function updateClock(){
 }
 
 function increClock(){
+    second++;
+    hour = hour % 12 || 12;
 
+    if(second % 60 == 0 && second != 0){
+        second = 0;
+        minute ++;
+    }
+    if(minute % 60 == 0 && minute != 0){
+        second = 0;
+        minute = 0;
+        hour ++;
+    }
+
+    if(second < 10){
+        second = '0' + second.toString();
+    }
+    else{
+        second.toString().padStart(2);
+    }
+
+    minute.toString().padStart(2);
+    hour = hour.toString().padStart(2);
+    if(minute < 10){
+        time = `${hour}:0${minute}:${second} ${military}`;
+    }
+    else{
+        time = `${hour}:${minute}:${second} ${military}`;
+    }
+    
+    document.getElementById("clock").textContent = time;
 }
-
 
 if(!inputted){
-    setInterval(updateClock, 1000);
+    intervalID = setInterval(updateClock, 1000);
 }
-
 
 const canvas = document.getElementById("drawBoard");
 const ctx = canvas.getContext('2d');
@@ -86,7 +117,7 @@ function draw (){
     ctx.fillStyle = 'rgba(0,0,0, 0.2)';
     ctx.fillRect(0,0,canvas.width, canvas.height);
     ctx.fillStyle = 'rgb(1, 255, 1)';
-    ctx.font = fontSize + RETRO;
+    ctx.font = fontSize + 'px RETRO';
 
     for(let j = 0; j < rainDrop.length; j++){
         const text = chars.charAt(Math.floor(Math.random() * chars.length));
