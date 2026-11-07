@@ -17,21 +17,40 @@ body{
     color: rgb(1, 255, 1);
     border:2px solid rgb(1, 255, 1);
     cursor:pointer;
+    padding:5px;
+    border-radius: 5px;
 }
 
 #header{
     color:rgb(1, 255, 1);
     height:50px;
     border-bottom: 2px solid rgb(1, 255, 1);
+    display:flex;
     flex-direction:row;
     margin:auto;
     width:95%;
+    align-items: center;
+    font-family: RETRO;
+    font-size: 25px;
 }
 
+#leftHeader {
+ display:flex;
+ flex-direction:row;
+ justify-content: flex-start;
+ align-items: center;
+}
+
+#leftHeader h1{
+    padding-left: 15px;
+}
+
+
 #clock{
-    font-size:80px;
+    font-size:180px;
     font-family:RETRO;
     color:rgb(1, 255, 1);
+    background-color: black;
 }
 
 #drawContainer {
