@@ -143,3 +143,14 @@ function draw (){
 
 setInterval(draw, 120);
 
+const control = document.getElementById("control");
+const controlMenu = document.getElementById("controlMenu");
+const X = document.getElementById("X");
+
+control.addEventListener("click", ()=>{
+    controlMenu.classList.add("open");
+})
+
+X.addEventListener("click", ()=>{
+    controlMenu.classList.remove("open");
+})
