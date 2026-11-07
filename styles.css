@@ -1,19 +1,40 @@
 body{
     margin:auto;
+    background-color:black;
+    overflow:hidden;
+}
+
+#container{
+    height:100vh;
 }
 
 #clockContainer{
     display:flex;
     align-items:center;
     justify-content: center;
-    height:100vh;
-    background-color:black;
+    height: 80vh;
+    flex-direction: column;
+}
+#clockContainer button{
+    background-color:rgb(0, 14, 0);
+    color: rgb(1, 255, 1);
+    border:2px solid rgb(1, 255, 1);
+    cursor:pointer;
+}
+
+#header{
+    color:rgb(1, 255, 1);
+    height:50px;
+    border-bottom: 2px solid rgb(1, 255, 1);
+    flex-direction:row;
+    margin:auto;
+    width:95%;
 }
 
 #clock{
     font-size:80px;
     font-family:RETRO;
-    color:rgb(11, 180, 11);
+    color:rgb(1, 255, 1);
 }
 
 @font-face {
