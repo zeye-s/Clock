@@ -1,12 +1,37 @@
+let time;
+let clock = document.getElementById("clock")
+let hour;
+let military;
+let minute;
+let second;
+
 function updateClock(){
-    const now = new Date();
-    let hour = now.getHours();
-    const military = hour >= 12 ? "PM" : "AM";
+    now = new Date();
+    hour = now.getHours();
+    military = hour >= 12 ? "PM" : "AM";
     hour = hour % 12 || 12;
-    hour = hour.toString();
-    const minute = now.getMinutes().toString();
-    const second = now.getSeconds().toString();
-    const time = `${hour}:${minute}:${second} ${military}`;
+    hour = hour.toString().padStart(2);
+
+    minute = now.getMinutes();
+    if(minute < 10){
+        minute = '0' + minute.toString();
+        minute.padStart(2);
+    }
+    else{
+        minute.toString().padStart(2);
+    }
+
+    second = now.getSeconds().toString().padStart(2);
+    if(second < 10){
+        second = '0' + second.toString();
+        second.padStart(2);
+    }
+    else{
+        second.toString().padStart(2);
+    }
+
+
+    time = `${hour}:${minute}:${second} ${military}`;
     document.getElementById("clock").textContent = time;
 
 }
@@ -20,8 +45,11 @@ const binary = '01';
 const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const chars = binary + alphabet;
 const fontSize = 20;
-const columns = canvas.width/(fontSize + 2);
 const RETRO = "RETRO";
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+const columns = canvas.width/(fontSize + 2);
+
 
 const rainDrop = [];
 for(let i = 0; i < columns; i++){

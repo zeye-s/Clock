@@ -2,11 +2,10 @@ body{
     margin:auto;
     background-color:black;
     overflow:hidden;
-}
-
-#container{
     height:100vh;
 }
+
+
 
 #clockContainer{
     display:flex;
@@ -35,6 +34,27 @@ body{
     font-size:80px;
     font-family:RETRO;
     color:rgb(1, 255, 1);
+}
+
+#drawContainer {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+}
+
+#clockContainer,
+#header {
+    position: relative;
+    z-index: 1;
+}
+
+#drawBoard {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
 @font-face {
