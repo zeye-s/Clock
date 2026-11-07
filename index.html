@@ -15,7 +15,7 @@
                 <h1>WIN OS // CHRONO // MONITOR_v2.3</h1>
             </div>
             <div id = "rightHeader">
-                
+
             </div>
         </div>
         <div id = "drawContainer">
@@ -23,9 +23,11 @@
         </div>
         <div id = "clockContainer">
             <div id = "clock">00:00:00</div>
-            <button id = "setTime">Set Time</button>
+            <div class = "buttonGroup">
+                <button id = "setTime">Set Time</button>
+                <button id = "reset">Reset</button>    
+            </div>
             <div id = "editTime">
-                <h2>Set the time you want</h2>
                 <input id = "inputHours" type = "text" placeholder="hours">
                 <input id = "inputMinutes" type = "text" placeholder="minutes">
                 <input id = "inputSeconds"type = "text" placeholder="seconds">
@@ -33,7 +35,10 @@
                     <option value = "AM">AM</option>
                     <option value = "PM">PM</option>
                 </select>
-                <button id = "submit" type = "submit">Submit</button>
+                <div class = "buttonGroup">
+                    <button id = "submit" type = "submit">Submit</button>
+                    <button id = "close" type = "submit">Close</button>
+                </div>
             </div>
         </div>
     </div>

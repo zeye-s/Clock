@@ -80,6 +80,8 @@ body{
     opacity: 1;
     z-index:2;
     pointer-events: all;
+    justify-content: center;
+    margin:auto;
 }
 
 #editTime{
@@ -96,16 +98,32 @@ body{
     justify-content: center;
     flex-direction: column;
     pointer-events: none;
+    color:rgb(0, 184, 0);
+   
 }
 
-#editTime input, select, #submit{
+.buttonGroup{
+    display:flex;
+    flex-direction: row;
+    padding:20px;
+    justify-content: space-evenly;
+}
+
+#editTime input, select, #submit, #close{
     padding:5px;
     width:50%;
     margin:auto;
-    margin-top:-5%;
+    background-color: black;
+    border:2px solid rgb(0, 184, 0);
+    box-sizing: border-box;
 }
+
+input::placeholder{
+    color:rgb(13, 255, 13);
+}  
 
 @font-face {
     font-family: RETRO;
     src: url("block-blueprint-font/Blockblueprint-LV7z5.ttf");
+    font-display: swap; 
 }

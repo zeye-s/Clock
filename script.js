@@ -1,6 +1,8 @@
 const setTime = document.getElementById("setTime");
+const reset = document.getElementById("reset");
 const editTime = document.getElementById("editTime");
 const submit = document.getElementById("submit");
+const close = document.getElementById("close");
 const inputHours = document.getElementById("inputHours");
 const inputMinutes = document.getElementById("inputMinutes");
 const inputSeconds = document.getElementById("inputSeconds");
@@ -19,16 +21,26 @@ setTime.addEventListener("click", ()=>{
     editTime.classList.add("open");
 })
 
+reset.addEventListener("click", ()=>{
+    clearInterval(intervalID);
+    inputted = false;
+    intervalID = setInterval(updateClock, 1000);
+})
+
 submit.addEventListener("click", ()=>{
     editTime.classList.remove("open");
-    hour = parseInt(inputHours.value);
-    minute = parseInt(inputMinutes.value);
-    second = parseInt(inputSeconds.value);
+    hour = parseInt(inputHours.value) || 12;
+    minute = parseInt(inputMinutes.value) || 0;
+    second = parseInt(inputSeconds.value) || 0;
     military = selectTime.value;
     inputted = true;
 
     clearInterval(intervalID);
     intervalID = setInterval(increClock, 1000);
+})
+
+close.addEventListener("click", ()=>{
+    editTime.classList.remove("open");
 })
 
 
