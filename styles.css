@@ -5,8 +5,6 @@ body{
     height:100vh;
 }
 
-
-
 #clockContainer{
     display:flex;
     align-items:center;
@@ -54,7 +52,35 @@ body{
 #drawBoard {
     display: block;
     width: 100%;
-    height: 100%;
+    height: 90%;
+    margin-top:5%;
+    margin-left:4.5%;
+}
+
+#editTime.open{
+    opacity: 1;
+    z-index:2;
+}
+
+#editTime{
+    background-color: black;
+    border:2px solid rgb(0, 184, 0);
+    opacity:0;
+    position:fixed;
+    top:20%;
+    left:20%;
+    right:20%;
+    bottom:20%;
+    z-index:-1;
+    display:flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#editTime input{
+    padding:5px;
+    width:50%;
+    margin:auto;
 }
 
 @font-face {

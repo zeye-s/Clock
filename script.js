@@ -6,7 +6,7 @@ let minute;
 let second;
 
 function updateClock(){
-    now = new Date();
+    let now = new Date();
     hour = now.getHours();
     military = hour >= 12 ? "PM" : "AM";
     hour = hour % 12 || 12;
@@ -15,7 +15,6 @@ function updateClock(){
     minute = now.getMinutes();
     if(minute < 10){
         minute = '0' + minute.toString();
-        minute.padStart(2);
     }
     else{
         minute.toString().padStart(2);
@@ -24,7 +23,6 @@ function updateClock(){
     second = now.getSeconds().toString().padStart(2);
     if(second < 10){
         second = '0' + second.toString();
-        second.padStart(2);
     }
     else{
         second.toString().padStart(2);
@@ -73,3 +71,15 @@ function draw (){
 }
 
 setInterval(draw, 120);
+
+const setTime = document.getElementById("setTime");
+const editTime = document.getElementById("editTime");
+const submit = document.getElementById("submit");
+
+setTime.addEventListener("click", ()=>{
+    editTime.classList.add("open");
+})
+
+submit.addEventListener("click", ()=>{
+    editTime.classList.remove("open");
+})
