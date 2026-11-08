@@ -1,5 +1,5 @@
 body{
-    --backgroundColor:rgb(0,14,0);
+    --backgroundColor:rgb(0,0,0);
     color: rgb(1, 255, 1); 
     margin:auto;
     background-color:var(--backgroundColor);
@@ -7,6 +7,7 @@ body{
     height:100vh;
     --borderColor:rgb(186, 243, 186);
     --progressColor: rgb(199, 230, 199);
+    --placeholderColor: rgb(1, 255, 1);
 }
 
 #clockContainer{
@@ -150,7 +151,7 @@ body{
 
 #controlMenu{
     background-color: var(--backgroundColor);
-    border: 3px solid var(--borderColor);
+    border: 4px solid var(--borderColor);
     position:fixed;
     right:0;
     top:0;
@@ -228,7 +229,7 @@ body{
 }
 
 input::placeholder{
-    color:rgb(13, 255, 13);
+    color:var(--placeholderColor);
 }  
 
 #editSpeed{
@@ -242,6 +243,12 @@ input::placeholder{
     border:2px solid var(--borderColor);
     padding:5px;
     width:95%;
+    border-radius: 5px;
+}
+
+#speedSubmit{
+    border: 2px solid var(--borderColor);
+    padding:5px;
     border-radius: 5px;
 }
 

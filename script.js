@@ -7,7 +7,7 @@ const inputHours = document.getElementById("inputHours");
 const inputMinutes = document.getElementById("inputMinutes");
 const inputSeconds = document.getElementById("inputSeconds");
 const selectTime = document.getElementById("selectTime");
-const editSpeed = document.getElementById("editSpeed");
+const speedValue = document.getElementById("speedValue");
 const speedSubmit = document.getElementById("speedSubmit");
 
 let time;
@@ -43,22 +43,24 @@ submit.addEventListener("click", ()=>{
 })
 
 speedSubmit.addEventListener("click", ()=>{
-    let inputValue = parseInt(editSpeed.value);
-    if (inputValue != NaN || inputValue <= 0) {
+    let inputValue = parseInt(speedValue.value);
+    if (!Number.isFinite(inputValue) || inputValue <= 0) {
         speed = 1000;
     } 
     else {
-        speed = 1000 / inputValue;
+        speed = Math.max(1, 1000 / inputValue);
+        if (!inputted) {
+            const now = new Date();
+            hour = now.getHours() % 12 || 12;
+            minute = now.getMinutes();
+            second = now.getSeconds();
+            military = now.getHours() >= 12 ? "PM" : "AM";
+            inputted = true;
+        }
     }
 
     clearInterval(intervalID);
-
-    if (inputted) {
-        intervalID = setInterval(increClock, speed);
-    } else {
-        intervalID = setInterval(updateClock, speed);
-    }
-
+    intervalID = setInterval(inputted ? increClock : updateClock, speed);
 });
 
 close.addEventListener("click", ()=>{
@@ -95,29 +97,30 @@ function updateClock(){
 
 function increClock(){
     second++;
-    hour = hour % 12 || 12;
 
-    if(second % 60 == 0 && second != 0){
+    if(second >= 60){
         second = 0;
-        minute ++;
+        minute++;
     }
-    if(minute % 60 == 0 && minute != 0){
-        second = 0;
+
+    if(minute >= 60){
         minute = 0;
-        hour ++;
+        hour++;
+        if(hour === 12){
+            military = military === "AM" ? "PM" : "AM";
+        } else if(hour > 12){
+            hour = 1;
+        }
     }
 
-    if(second < 10){
-        second = '0' + second.toString();
+    if(minute < 10 && second < 10){
+        time = `${hour}:0${minute}:0${second} ${military}`;
     }
-    else{
-        second.toString().padStart(2);
-    }
-
-    minute.toString().padStart(2);
-    hour = hour.toString().padStart(2);
-    if(minute < 10){
+    else if (minute < 10){
         time = `${hour}:0${minute}:${second} ${military}`;
+    }
+    else if (second < 10){
+        time = `${hour}:${minute}:0${second} ${military}`;
     }
     else{
         time = `${hour}:${minute}:${second} ${military}`;
@@ -170,22 +173,40 @@ function draw (){
 
 setInterval(draw, 120);
 
+const body = document.getElementById("body");
+
+
 function changeTheme(){
     if(hour == 12 && military == "AM" || hour == 4){
         charFill = 'rgba(247, 250, 255, 0.5)';
         backgroundFill= 'rgba(84, 86, 90, 0.5)';
+        body.style.setProperty('--backgroundColor','rgb(84, 86, 90)');
+        body.style.setProperty('color','rgb(231, 236, 245)');
+        body.style.setProperty('--borderColor','rgb(158, 161, 168)');
+        body.style.setProperty('--progressColor','rgb(199, 218, 230)');
+        body.style.setProperty('--placeholderColor','rgb(231, 236, 245)');
     }
     else if (hour == 6){
-        charFill = 'rgb(253, 5, 5)';
-        backgroundFill = 'rgba(71, 0, 0, 0.5)';
+        charFill = 'rgb(256, 6, 6)';
+        backgroundFill = 'rgba(66, 6, 6, 0.6)';
+        body.style.setProperty('--backgroundColor','rgb(66, 0, 0)');
+        body.style.setProperty('color','rgb(256, 6, 6)');
+        body.style.setProperty('--borderColor','rgb(156, 16, 16)');
+        body.style.setProperty('--progressColor','rgb(236, 206, 196)');
+        body.style.setProperty("--placeholderColor", 'rgb(256, 6, 6)');
     }
     else{
         backgroundFill = 'rgba(0,0,0, 0.2)';
-         charFill = 'rgb(1, 255, 1)';
+        charFill = 'rgb(1, 255, 1)';
+        body.style.setProperty('--backgroundColor','rgb(0,0,0)');
+        body.style.setProperty('color','rgb(1, 255, 1)');
+        body.style.setProperty('--borderColor','rgb(186, 243, 186)');
+        body.style.setProperty('--progressColor','rgb(199, 230, 199)');
+        body.style.setProperty("--placeholderColor", "rgb(1, 255, 1)");
     }
 }
 
-setInterval(changeTheme, 5000);
+setInterval(changeTheme, 1000);
 
 
 
