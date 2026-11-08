@@ -1,1 +1,2 @@
 # Clock
+It's a digital clock that's made from HTML, CSS, and JS. You can input your own time or uses the default clock that reads time from your device. Clicking Set Time allows you to set your own time and Reset will change it back to the system time. Why do I need this you may ask? Well, there might be some surprises at certain time. Check out the Control Panel for more info. Be sure to keep track of the control panel as it will be super handy in some situations. Have a fun time!!.
