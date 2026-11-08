@@ -22,7 +22,7 @@ let speed = 1000;
 let US = setInterval(updateSanity, speed);
 let CA = setInterval(checkAttack, speed);
 let CS = setInterval(corruptSystem, speed);
-let DE = setInterval(drawEffects, speed);
+let DE;
 
 setTime.addEventListener("click", ()=>{
     editTime.classList.add("open");
@@ -32,6 +32,7 @@ reset.addEventListener("click", ()=>{
     clearInterval(intervalID);
     inputted = false;
     intervalID = setInterval(updateClock, speed);
+    updateClock();
 })
 
 submit.addEventListener("click", ()=>{
@@ -44,6 +45,7 @@ submit.addEventListener("click", ()=>{
 
     clearInterval(intervalID);
     intervalID = setInterval(increClock, speed);
+    updateEffectsSchedule();
 })
 
 speedSubmit.addEventListener("click", ()=>{
@@ -65,15 +67,15 @@ speedSubmit.addEventListener("click", ()=>{
 
     clearInterval(intervalID);
     intervalID = setInterval(inputted ? increClock : updateClock, speed);
-
     clearInterval(US);
     clearInterval(CA);
     clearInterval(CS);
-    clearInterval(DE);
      US = setInterval(updateSanity, speed);
      CA = setInterval(checkAttack, speed);
      CS = setInterval(corruptSystem, speed);
-     DE = setInterval(drawEffects, speed);
+    clearInterval(DE);
+    DE = undefined;
+    updateEffectsSchedule();
 });
 
 close.addEventListener("click", ()=>{
@@ -106,6 +108,7 @@ function updateClock(){
 
     time = `${hour}:${minute}:${second} ${military}`;
     document.getElementById("clock").textContent = corruptLines(time);
+    updateEffectsSchedule();
 }
 
 function increClock(){
@@ -140,6 +143,7 @@ function increClock(){
     }
     
     document.getElementById("clock").textContent = corruptLines(time);
+    updateEffectsSchedule();
 }
 
 if(!inputted){
@@ -286,40 +290,70 @@ function applyGlitch(){
     }
 }
 
-let count = 0;
+const fixCountToComplete = 10;
+let fixCount = fixCountToComplete;
 const fix = document.getElementById("fix");
 fix.addEventListener("click", ()=>{
-    count += 1;
-    if(count >= 10){
+    fixCount -= 1;
+    if(fixCount <= 0){
         targets.forEach((element =>{
-        element.classList.remove("glitch-text");
-        delete element.dataset.text;
+           element.classList.remove("glitch-text");
+           delete element.dataset.text;
         }))
         clearInterval(sanityDrainInterval);
         sanityDrainInterval = null;
-        count = 0;
+        fixCount = fixCountToComplete;
+        fix.textContent = "FIX GLITCH";
+    } else {
+        fix.textContent = fixCount;
     }
-    
 })
 
 const comfort = document.getElementById("comfort");
 const meds = document.getElementById("meds");
 const sleep = document.getElementById("sleep");
 let comfortCooldown = false;
+let medsCooldown = false;
+let sleepCooldown = false;
+
+function startActionCountdown(button, label, ticks, onComplete){
+    let remaining = ticks;
+    button.textContent = remaining;
+
+    const countdown = setInterval(()=>{
+        remaining -= 1;
+        if(remaining <= 0){
+           clearInterval(countdown);
+           button.textContent = label;
+           onComplete();
+        } else {
+           button.textContent = remaining;
+        }
+    }, speed);
+}
 
 comfort.addEventListener("click", ()=>{
-    let cooldown = speed * 5;
-    if(!comfortCooldown){
-        sanityPercent += 1;
-        comfortCooldown = true;
-        setTimeout(()=>{
-            comfortCooldown = false;
-        }, cooldown)
-    }  
+    if(comfortCooldown) return;
+
+    sanityPercent += 1;
+    comfortCooldown = true;
+    startActionCountdown(comfort, "COMFORT", 5, ()=>{ comfortCooldown = false; });
 })
 
 meds.addEventListener("click", ()=>{
-    
+    if(medsCooldown) return;
+
+    sanityPercent += 1;
+    medsCooldown = true;
+    startActionCountdown(meds, "MEDS", 5, ()=>{ medsCooldown = false; });
+})
+
+sleep.addEventListener("click", ()=>{
+    if(sleepCooldown) return;
+
+    sanityPercent += 100;
+    sleepCooldown = true;
+    startActionCountdown(sleep, "SLEEP", 180, ()=>{ sleepCooldown = false; });
 })
 
 function corruptLines(str){
@@ -348,6 +382,8 @@ function corruptLines2(str){
     return result;
 }
 
+const frequency = document.getElementById("frequency");
+
 function corruptSystem(){
     setTime.textContent = corruptLines2("Set Time");
     reset.textContent = corruptLines2("Reset");
@@ -356,17 +392,21 @@ function corruptSystem(){
         Status.textContent = corruptLines("UNSTABLE");
         systemInfo.textContent = corruptLines("WIN OS // CHRONOS // MONITOR_v2.3");
         statusContainer.textContent = corruptLines("STATUS: ");
+        frequency.textContent = "MEDIUM";
+        
     }
     else if(sanityPercent <= 40 && sanityPercent > 0){
         Status.textContent = corruptLines("BROKEN");
         systemInfo.textContent = corruptLines("GLITCH OS // 👁👁👁 // MONITOR_v6.6");
         statusContainer.textContent = corruptLines("STATUS: ");
+        frequency.textContent = "HIGH";
     }
     else if(sanityPercent <= 0){
         control.textContent = "[ CO⚠N⚠ROL_PAN⚠L ]";
         Status.textContent = corruptLines("BROKEN");
         systemInfo.textContent = corruptLines("GLITCH OS // 👁👁👁 // MONITOR_v6.6");
         statusContainer.textContent = corruptLines("STATUS: ");
+        frequency.textContent = "HIGH";
     }
     else{
         Status.textContent = corruptLines("STABLE");
@@ -389,6 +429,32 @@ let eyeHeight = 20;
 let spacing = 70;
 let centerX;
 let centerY;
+
+function isEffectsPeriod(){
+    const currentHour = Number.parseInt(hour, 10);
+    return (currentHour === 12 && military === "AM") || currentHour === 4 || currentHour === 6;
+}
+
+function updateEffectsSchedule(){
+    if(isEffectsPeriod()){
+        if(DE === undefined){
+            DE = setInterval(drawEffects, speed);
+        }
+        return;
+    }
+
+    if(DE !== undefined){
+        clearInterval(DE);
+        DE = undefined;
+    }
+    if(activeEyes){
+        clearTimeout(eyeTimer);
+        eyeTimer = null;
+        activeEyes = null;
+        eyeDone = true;
+        effects.clearRect(0, 0, effectsBoard.width, effectsBoard.height);
+    }
+}
 
 window.addEventListener("mousemove", (Event)=>{
     mouseX = Event.clientX;
@@ -463,18 +529,21 @@ window.addEventListener("click", (event) => {
 
 
 function drawEffects(){
+    if(!isEffectsPeriod()){
+        updateEffectsSchedule();
+        return;
+    }
+
     if(Math.random() * sanityPercent < 20){
         if(eyeDone){
             effects.clearRect(0,0,effectsBoard.width, effectsBoard.height);
             drawEyes();
         }
     }
-    if(Math.random() * sanityPercent < 50){
+    if(Math.random() * sanityPercent < 10){
         applyGlitch();
     }
 }
-
-drawEffects();
 
 function checkAttack(){
     if(eyeAttack){
@@ -487,3 +556,5 @@ function checkAttack(){
     }
     attacked = true;
 }
+
+const guide = document.getElementById("guide");
