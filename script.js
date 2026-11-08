@@ -558,3 +558,12 @@ function checkAttack(){
 }
 
 const guide = document.getElementById("guide");
+const guidePage = document.getElementById("guidePage");
+const closeGuide = document.getElementById("closeGuide");
+guide.addEventListener("click", ()=>{
+    guidePage.classList.add("reading");
+})
+
+closeGuide.addEventListener("click", ()=>{
+    guidePage.classList.remove("reading");
+})
