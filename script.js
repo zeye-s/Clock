@@ -154,3 +154,36 @@ control.addEventListener("click", ()=>{
 X.addEventListener("click", ()=>{
     controlMenu.classList.remove("open");
 })
+
+const sanity = document.getElementById("sanity");
+const sanityBar = document.getElementById("sanityBar");
+const sanityProgress = document.getElementById("sanityProgress");
+
+let sanityPercent = 100;
+let attacked = false;
+
+function updateSanity(){
+    if(attacked){
+        sanityPercent -= Math.floor(Math.random() * 60);
+        attacked = false;
+    }
+    if(sanityPercent <= 0){
+        sanityProgress.style.width = '0%';
+        sanity.textContent = "INSANE";
+
+    }
+    else if (sanityPercent >= 0){
+        sanityProgress.style.width = sanityPercent.toString() + '%';
+        sanity.textContent = sanityPercent.toString() + '%';
+    }
+}
+
+setInterval(updateSanity, 200);
+
+function checkAttack(){
+    if(second % 5 == 0){
+        attacked = true;
+    }
+}
+
+setInterval(checkAttack, 1000);
