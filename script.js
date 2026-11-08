@@ -7,6 +7,8 @@ const inputHours = document.getElementById("inputHours");
 const inputMinutes = document.getElementById("inputMinutes");
 const inputSeconds = document.getElementById("inputSeconds");
 const selectTime = document.getElementById("selectTime");
+const editSpeed = document.getElementById("editSpeed");
+const speedSubmit = document.getElementById("speedSubmit");
 
 let time;
 let clock = document.getElementById("clock");
@@ -16,7 +18,7 @@ let minute;
 let second;
 let inputted = false;
 let intervalID;
-
+let speed = 1000;
 
 setTime.addEventListener("click", ()=>{
     editTime.classList.add("open");
@@ -25,7 +27,7 @@ setTime.addEventListener("click", ()=>{
 reset.addEventListener("click", ()=>{
     clearInterval(intervalID);
     inputted = false;
-    intervalID = setInterval(updateClock, 1000);
+    intervalID = setInterval(updateClock, speed);
 })
 
 submit.addEventListener("click", ()=>{
@@ -37,8 +39,27 @@ submit.addEventListener("click", ()=>{
     inputted = true;
 
     clearInterval(intervalID);
-    intervalID = setInterval(increClock, 1000);
+    intervalID = setInterval(increClock, speed);
 })
+
+speedSubmit.addEventListener("click", ()=>{
+    let inputValue = parseInt(editSpeed.value);
+    if (inputValue != NaN || inputValue <= 0) {
+        speed = 1000;
+    } 
+    else {
+        speed = 1000 / inputValue;
+    }
+
+    clearInterval(intervalID);
+
+    if (inputted) {
+        intervalID = setInterval(increClock, speed);
+    } else {
+        intervalID = setInterval(updateClock, speed);
+    }
+
+});
 
 close.addEventListener("click", ()=>{
     editTime.classList.remove("open");
@@ -106,8 +127,11 @@ function increClock(){
 }
 
 if(!inputted){
-    intervalID = setInterval(updateClock, 1000);
+    intervalID = setInterval(updateClock, speed);
 }
+
+
+
 
 const canvas = document.getElementById("drawBoard");
 const ctx = canvas.getContext('2d');
@@ -152,8 +176,8 @@ function changeTheme(){
         backgroundFill= 'rgba(84, 86, 90, 0.5)';
     }
     else if (hour == 6){
-        charFill = 'rbga()';
-        backgroundFill = 'rgba()';
+        charFill = 'rgb(253, 5, 5)';
+        backgroundFill = 'rgba(71, 0, 0, 0.5)';
     }
     else{
         backgroundFill = 'rgba(0,0,0, 0.2)';
