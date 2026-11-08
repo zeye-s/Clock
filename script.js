@@ -17,6 +17,7 @@ let second;
 let inputted = false;
 let intervalID;
 
+
 setTime.addEventListener("click", ()=>{
     editTime.classList.add("open");
 })
@@ -119,6 +120,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const columns = canvas.width/(fontSize + 2);
 
+let backgroundFill = 'rgba(0,0,0, 0.2)';
+let charFill = 'rgb(1, 255, 1)';
 
 const rainDrop = [];
 for(let i = 0; i < columns; i++){
@@ -126,9 +129,9 @@ for(let i = 0; i < columns; i++){
 }
 
 function draw (){
-    ctx.fillStyle = 'rgba(0,0,0, 0.2)';
+    ctx.fillStyle = backgroundFill;
     ctx.fillRect(0,0,canvas.width, canvas.height);
-    ctx.fillStyle = 'rgb(1, 255, 1)';
+    ctx.fillStyle = charFill;
     ctx.font = fontSize + 'px RETRO';
 
     for(let j = 0; j < rainDrop.length; j++){
@@ -142,6 +145,32 @@ function draw (){
 }
 
 setInterval(draw, 120);
+
+function changeTheme(){
+    if(hour == 12 && military == "AM" || hour == 4){
+        charFill = 'rgba(247, 250, 255, 0.5)';
+        backgroundFill= 'rgba(84, 86, 90, 0.5)';
+    }
+    else if (hour == 6){
+        charFill = 'rbga()';
+        backgroundFill = 'rgba()';
+    }
+    else{
+        backgroundFill = 'rgba(0,0,0, 0.2)';
+         charFill = 'rgb(1, 255, 1)';
+    }
+}
+
+setInterval(changeTheme, 5000);
+
+
+
+
+
+
+
+
+
 
 const control = document.getElementById("control");
 const controlMenu = document.getElementById("controlMenu");
