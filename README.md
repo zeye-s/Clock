@@ -2,3 +2,4 @@
 It's a digital clock that's made from HTML, CSS, and JS. You can input your own time or uses the default clock that reads time from your device. Clicking Set Time allows you to set your own time and Reset will change it back to the system time. Why do I need this you may ask? Well, there might be some surprises at certain time. Check out the Control Panel for more info. Be sure to keep track of the control panel as it will be super handy in some situations. Have a fun time!!. Some hints for you (4, 6, 12).
 
 access it here: https://zeye-s.github.io/Clock/
+<img width="1890" height="893" alt="image" src="https://github.com/user-attachments/assets/82bde8f7-2477-4218-9dfc-e355f5ddf539" />
