@@ -19,6 +19,11 @@ let second;
 let inputted = false;
 let intervalID;
 let speed = 1000;
+let US = setInterval(updateSanity, speed);
+let CA = setInterval(checkAttack, speed);
+let CS = setInterval(corruptSystem, speed);
+
+
 
 setTime.addEventListener("click", ()=>{
     editTime.classList.add("open");
@@ -61,6 +66,13 @@ speedSubmit.addEventListener("click", ()=>{
 
     clearInterval(intervalID);
     intervalID = setInterval(inputted ? increClock : updateClock, speed);
+
+    clearInterval(US);
+    clearInterval(CA);
+    clearInterval(CS);
+     US = setInterval(updateSanity, speed);
+     CA = setInterval(checkAttack, speed);
+     CS = setInterval(corruptSystem, speed);
 });
 
 close.addEventListener("click", ()=>{
@@ -92,7 +104,7 @@ function updateClock(){
     }
 
     time = `${hour}:${minute}:${second} ${military}`;
-    document.getElementById("clock").textContent = time;
+    document.getElementById("clock").textContent = corruptLines(time);
 }
 
 function increClock(){
@@ -126,7 +138,7 @@ function increClock(){
         time = `${hour}:${minute}:${second} ${military}`;
     }
     
-    document.getElementById("clock").textContent = time;
+    document.getElementById("clock").textContent = corruptLines(time);
 }
 
 if(!inputted){
@@ -232,19 +244,24 @@ X.addEventListener("click", ()=>{
 const sanity = document.getElementById("sanity");
 const sanityBar = document.getElementById("sanityBar");
 const sanityProgress = document.getElementById("sanityProgress");
+const systemInfo = document.getElementById("systemInfo");
+const weirdChars = "ⱠICⱧØS§₮ME👁☠☤☥☒⚠✝☨☩";
+const Status = document.getElementById("status");
+const weirdChars2 = "ⱠICⱧØS§₮ME☤☥☒☨☩"
+
 
 let sanityPercent = 100;
 let attacked = false;
 
 function updateSanity(){
     if(attacked){
-        sanityPercent -= Math.floor(Math.random() * 60);
+        sanityPercent -= Math.floor(Math.random() * 6);
         attacked = false;
     }
     if(sanityPercent <= 0){
         sanityProgress.style.width = '0%';
         sanity.textContent = "INSANE";
-
+       
     }
     else if (sanityPercent >= 0){
         sanityProgress.style.width = sanityPercent.toString() + '%';
@@ -252,12 +269,78 @@ function updateSanity(){
     }
 }
 
-setInterval(updateSanity, 200);
 
 function checkAttack(){
-    if(second % 5 == 0){
-        attacked = true;
+    attacked = true;
+}
+
+
+function corruptLines(str){
+    let result = "";
+    for(let i = 0; i < str.length; i++){
+        if(str[i] != ':' && Math.random() * sanityPercent < 1 || str[i] != ' ' && Math.random() * sanityPercent < 1 || str[i] != '/' && Math.random() * sanityPercent < 1){
+            result += weirdChars[Math.floor(Math.random() * weirdChars.length)];
+        }
+        else{
+            result += str[i];
+        }
+    }
+    return result;
+}
+
+function corruptLines2(str){
+    let result = "";
+    for(let i = 0; i < str.length; i++){
+        if(str[i] != ':' && Math.random() * sanityPercent < 1 || str[i] != ' ' && Math.random() * sanityPercent < 1 ){
+            result += weirdChars2[Math.floor(Math.random() * weirdChars2.length)];
+        }
+        else{
+            result += str[i];
+        }
+    }
+    return result;
+}
+
+const statusContainer = document.getElementById("statusContainer");
+
+
+function corruptSystem(){
+    setTime.textContent = corruptLines2("Set Time");
+    reset.textContent = corruptLines2("Reset");
+    
+    if(sanityPercent <= 70 && sanityPercent > 40){
+        Status.textContent = corruptLines("UNSTABLE");
+        systemInfo.textContent = corruptLines("WIN OS // CHRONOS // MONITOR_v2.3");
+        statusContainer.textContent = corruptLines("STATUS: ");
+    }
+    else if(sanityPercent <= 40 && sanityPercent > 0){
+        Status.textContent = corruptLines("BROKEN");
+        systemInfo.textContent = corruptLines("GLITCH OS // 👁👁👁 // MONITOR_v6.6");
+        statusContainer.textContent = corruptLines("STATUS: ");
+    }
+    else if(sanityPercent <= 0){
+        control.textContent = "[ CO⚠N⚠ROL_PAN⚠L ]";
+        Status.textContent = corruptLines("BROKEN");
+        systemInfo.textContent = corruptLines("GLITCH OS // 👁👁👁 // MONITOR_v6.6");
+        statusContainer.textContent = corruptLines("STATUS: ");
+    }
+    else{
+        Status.textContent = corruptLines("STABLE");
+        systemInfo.textContent = corruptLines("WIN OS // CHRONOS // MONITOR_v2.3");
     }
 }
 
-setInterval(checkAttack, 1000);
+const effectsBoard = document.getElementById("effectsBoard");
+const effects = effectsBoard.getContext('2d');
+
+let mouseX;
+let mouseY;
+
+window.addEventListener("mousemove", (Event)=>{
+    mouseX = Event.clientX;
+    mouseY = Event.clientY;
+})
+
+
+
+

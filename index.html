@@ -12,10 +12,10 @@
         <div id = "header">
             <div id = "leftHeader">
             <div class="w-3 h-3 rounded-full bg-current animate-ping" id = "radar"></div>
-                <h1>WIN OS // CHRONOS // MONITOR_v2.3</h1>
+                <h1 id = "systemInfo">WIN OS // CHRONOS // MONITOR_v2.3</h1>
             </div>
             <div id = "rightHeader">
-                <h1>STATUS: <h1 id = "status"> STABLE</h1></h1>
+                <h1 id = "statusContainer">STATUS: <h1 id = "status"> STABLE</h1></h1>
                 <button id = "control">[ CONTROL_PANEL ]</button>
                 <div id = "controlMenu">
 
@@ -53,6 +53,9 @@
         </div>
         <div id = "drawContainer">
             <canvas id = "drawBoard"></canvas>
+        </div>
+        <div id = "effectsContainer">
+            <canvas id = "effectsBoard"></canvas>
         </div>
         <div id = "clockContainer">
             <div id = "clock">00:00:00</div>
